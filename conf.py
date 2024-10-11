@@ -23,13 +23,6 @@ class TG(BaseModel):
     token: Optional[str]
 
 
-class Post(BaseModel):
-    task_url: Optional[str]
-    task_token: Optional[str]
-    youtube_channel: Optional[str]
-    chat_id: Optional[str]
-
-
 class VK(BaseModel):
     group_id: str
     access_token: str
@@ -47,7 +40,6 @@ class Config(BaseModel):
     stream_cmd: Optional[str]
     debug: bool
     tg_: TG = None
-    post_: Post = None
     vk_: VK = None
     _ffmpeg: FFmpeg = FFmpeg()
     _in_file: str = 'input.txt'
@@ -80,10 +72,8 @@ def read_config() -> Config:
 
     conf = conf_by_model(env, Config)
     conf.tg_ = conf_by_model(env, TG, with_prefix=True, check_fields=('chat_id', 'token'))
-    conf.post_ = conf_by_model(env, Post, with_prefix=True, check_fields=('task_url',))
     conf.vk_ = conf_by_model(env, VK, with_prefix=True, check_fields=('access_token', 'group_id'))
 
     conf._ffmpeg.create_params['threads'] = conf.threads
-    conf.stop_after = conf.stop_after * 60
     Path(conf.tmp_path).mkdir(parents=True, exist_ok=True)
     return conf
