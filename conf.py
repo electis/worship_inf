@@ -8,12 +8,12 @@ from pydantic import BaseModel
 
 
 class FFmpeg(BaseModel):
+    # TODO render too slow
     video_params: dict = dict()
-    # video_params = dict(hwaccel_output_format='cuda')
+    # video_params: dict = dict(hwaccel_output_format='cuda')
     create_params: dict = {
-        # 'acodec': 'aac', 'vcodec': 'libx264', 'maxrate': '3000k', 'bufsize': '6000k', 'shortest': None, 'f': 'flv',
-        'acodec': 'aac', 'vcodec': 'libx264', 'maxrate': '3000k', 'shortest': None, 'f': 'flv',
-        'b:v': '3000k', 'b:a': '128k', 'ar': '44100', 'framerate': '30', 'g': '30', 'profile': 'baseline',
+        'acodec': 'aac', 'vcodec': 'libx264', 'maxrate': '2000k', 'shortest': None, 'f': 'flv', 'bufsize': '6000k',
+        'b:v': '2000k', 'b:a': '128k', 'ar': '44100', 'framerate': '30', 'g': '30', 'preset': 'ultrafast',
     }
     stream_params: dict = dict(f='flv', codec='copy')
 
